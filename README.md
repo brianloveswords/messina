@@ -16,9 +16,9 @@ $ npm install messina
 
 | Name | Default Value
 -------|----------------
-| `GRAYLOG_HOST` | localhost
-| `GRAYLOG_PORT` | 12201
-| `GRAYLOG_FACILITY` |
+| **GRAYLOG_HOST** | localhost
+| **GRAYLOG_PORT** | 12201
+| **GRAYLOG_FACILITY** |
 
 `GRAYLOG_FACILITY` should be set to the name of your app.
 
