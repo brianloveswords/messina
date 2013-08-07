@@ -14,11 +14,11 @@ $ npm install messina
 * Configure Graylog2 to accept GELF messages on some port.
 * Export some environment variables:
 
-| Name | Default Value |
------------------------
-| `GRAYLOG_HOST` | localhost |
-| `GRAYLOG_PORT` | 12201 |
-| `GRAYLOG_FACILITY` | |
+| Name | Default Value
+-------|----------------
+| `GRAYLOG_HOST` | localhost
+| `GRAYLOG_PORT` | 12201
+| `GRAYLOG_FACILITY` |
 
 `GRAYLOG_FACILITY` should be set to the name of your app.
 
