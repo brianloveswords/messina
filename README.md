@@ -2,6 +2,12 @@
 
 Route your app's event stream to a Graylog2 instance and get awesome. Uses the [GELF format](http://www.graylog2.org/about/gelf) for rich logging.
 
+## Approach
+
+There are a few alternative approaches already published for getting bunyan-style logs into GELF format and out to Graylog2, [`bunyan-gelf`](https://github.com/craftti/bunyan-gelf) and [`gelf-stream`](https://github.com/mhart/gelf-stream) for example (`messina` in fact uses parts of `gelf-stream` internally).
+
+The reason I wrote `messina` rather than using one of those is because I did not want to couple my app to a specific log aggregator. By creating a separate utility and using the standard unix pipes, the app doesn't have to care what happens to the log events after they are emitted.
+
 # Install
 
 ```bash
