@@ -1,0 +1,33 @@
+{
+  "name": "messina",
+  "version": "0.0.1",
+  "description": "Utility for getting logs into Graylog2",
+  "main": "index.js",
+  "bin": {
+    "messina": "./bin/messina"
+  },
+  "dependencies": {
+    "gelf-stream": "~0.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brianloveswords/messina.git"
+  },
+  "keywords": [
+    "graylog",
+    "graylog2",
+    "logging",
+    "bunyan"
+  ],
+  "author": "Brian J. Brennan",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "1c5ced4e5df4dbe6b99b6634d5c9a3a85ddb79b0",
+  "bugs": {
+    "url": "https://github.com/brianloveswords/messina/issues"
+  }
+}
