@@ -51,10 +51,10 @@ test('createLogger', function (t) {
   });
 });
 
-test('init', function(t) {
+test ('patchConsole', function (t) {
   const messina = require('../');
   const log = messina('Apples');
-  log.init();
+  log.patchConsole();
 
   sinon.spy(process.stderr, 'write');
 
@@ -71,7 +71,9 @@ test('init', function(t) {
     process.stderr.write.reset();
     t.end();
   });
+});
 
+test('catchFatal', function (t) {
   t.test('on uncaughtException', function (t) {
     exec('node ' + path.join(__dirname, 'uncaught.js'), {
       cwd: __dirname
@@ -82,5 +84,18 @@ test('init', function(t) {
       t.end();
     });
   });
+});
+
+test('init patches console and catches fatal', function(t) {
+  const messina = require('../');
+  const log = messina('Apples');
+
+  sinon.spy(log, 'patchConsole');
+  sinon.spy(log, 'catchFatal');
+
+  log.init();
+  t.ok(log.patchConsole.calledOnce, 'console patched');
+  t.ok(log.catchFatal.calledOnce, 'fatal will be caught');
+  t.end();
 });
 

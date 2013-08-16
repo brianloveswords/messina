@@ -22,7 +22,7 @@ module.exports = function(opts) {
 function Messina(opts) {
   var self = bunyan.createLogger(opts);
 
-  self.init = function init() {
+  self.patchConsole = function patchConsole() {
     // Patch console so it only outputs to stderr
     console.log = function() {
       process.stderr.write(util.format.apply(this, arguments) + '\n');
@@ -31,13 +31,20 @@ function Messina(opts) {
     console.dir = function(object) {
       process.stderr.write(util.inspect(object) + '\n');
     };
+  };
 
+  self.catchFatal = function catchFatal() {
     // Ensure uncaught exceptions end up in the event stream too
     process.once('uncaughtException', function (err) {
       self.fatal(err);
       throw err;
     });
   };
+
+  self.init = function init() {
+    self.patchConsole();
+    self.catchFatal();
+  }
 
   self.middleware = function() {
     return function (req, res, next) {

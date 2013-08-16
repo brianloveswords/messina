@@ -1,3 +1,3 @@
 const messina = require('../');
-var log = messina(' 💣  ').init();
+var log = messina(' 💣  ').catchFatal();
 throw new Error(' 💥i ');
