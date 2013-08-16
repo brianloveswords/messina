@@ -12,7 +12,7 @@ test('middleware', function (t) {
 
   sinon.spy(process.stdout, 'write');
 
-  t.test('foo', function (t) {
+  t.test('logs requests and responses', function (t) {
     app.listen(0, function() {
       var server = this;
       request('http://localhost:' + server.address().port, function(err, res) {
