@@ -79,6 +79,17 @@ console.dir = function(object) {
 
 Or you can do both at once with `log.init()`.
 
+## Middleware
+
+`messina` comes with express middleware for logging server requests and responses, used like so:
+
+```js
+var messina = require('messina');
+var log = messina('myapp');
+
+app.use(log.middleware());
+```
+
 # Usage
 
 ```bash
