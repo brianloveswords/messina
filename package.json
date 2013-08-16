@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "gelf-stream": "~0.2.2",
-    "bunyan": "~0.21.4"
+    "bunyan": "~0.21.4",
+    "underscore": "~1.5.1"
   },
   "devDependencies": {
     "tap": "~0.4.4",

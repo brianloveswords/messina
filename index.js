@@ -1,4 +1,5 @@
 const bunyan = require('bunyan');
+const _ = require('underscore');
 const util = require('util');
 
 module.exports = function(opts) {
@@ -9,10 +10,11 @@ module.exports = function(opts) {
     opts = { name: name };
   }
 
-  opts.serializers = {
+  opts.serializers = opts.serializers || {};
+  opts.serializers = _.defaults(opts.serializers, {
     req: bunyan.stdSerializers.req,
     res: bunyan.stdSerializers.res
-  }
+  });
     
   return new Messina(opts);
 };

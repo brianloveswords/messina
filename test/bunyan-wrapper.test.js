@@ -17,7 +17,7 @@ test('createLogger', function (t) {
     t.end();
   });
 
-  t.test('string argument', function (t) {
+  t.test('string argument becomes name', function (t) {
     var log = messina('Apples');
     t.ok(bunyan.createLogger.calledWithMatch({ name: 'Apples' }), "string used as name");
     bunyan.createLogger.reset();
@@ -25,10 +25,29 @@ test('createLogger', function (t) {
   });
 
   t.test('obj argument', function (t) {
-    var log = messina({name: 'Apples' });
-    t.ok(bunyan.createLogger.calledWithMatch({ name: 'Apples' }), "options object used");
-    bunyan.createLogger.reset();
-    t.end();
+    t.test('with name', function (t) {
+      var log = messina({name: 'Apples' });
+      t.ok(bunyan.createLogger.calledWithMatch({ name: 'Apples' }), "options object used");
+      t.equal(log.serializers.req, bunyan.stdSerializers.req, "has default req serializer");
+      t.equal(log.serializers.res, bunyan.stdSerializers.res, "has default res serializer");
+      bunyan.createLogger.reset();
+      t.end();
+    });
+
+    t.test('with serializers', function (t) {
+      var serializer = function(val) { return 'my serializer'; };
+      var log = messina({
+        name: 'Apples',
+        serializers: {
+          foo: serializer,
+          req: serializer
+        }
+      });
+      t.equal(log.serializers.req, serializer, "has my req serializer");
+      t.equal(log.serializers.res, bunyan.stdSerializers.res, "has default res serializer");
+      t.equal(log.serializers.foo, serializer, "has foo serializer");
+      t.end();
+    });
   });
 });
 
