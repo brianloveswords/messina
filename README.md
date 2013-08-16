@@ -16,7 +16,14 @@ $ npm install messina
 
 # Setup
 
-* Use [`bunyan`](https://github.com/trentm/node-bunyan) for your app logging.
+```js
+var messina = require('messina');
+var log = messina('myapp');
+
+log.info('Hooray');
+```
+
+* Use `messina` for your app logging. (It's a simple wrapper around [bunyan](https://github.com/trentm/node-bunyan).)
 * Configure Graylog2 to accept GELF messages on some port.
 * Export some environment variables:
 
@@ -28,9 +35,19 @@ $ npm install messina
 
 `GRAYLOG_FACILITY` should be set to the name of your app.
 
-## Recommended
+## Extras
 
-I'm not trying to tell you how to live your life, but I've found that doing the following is pretty useful:
+I'm not trying to tell you how to live your life, but `messina` provides some 
+extra functionality that I've found pretty useful:
+
+```js 
+var messina = require('messina');
+var log = messina('myapp');
+
+log.catchFatal();
+```
+
+is equivalent to
 
 ```js
 process.once('uncaughtException', function (err) {
@@ -42,6 +59,15 @@ process.once('uncaughtException', function (err) {
 I also like to patch `console` so that it outputs to stderr instead of stdout, but I'm a rebel. It's not strictly necessary as `messina` will toss out any messages it can't parse as JSON or that don't look like bunyan log events.
 
 ```js
+var messina = require('messina');
+var log = messina('myapp');
+
+log.patchConsole();
+```
+
+is equivalent to 
+
+```js
 const util = require('util');
 console.log = function() {
   process.stderr.write(util.format.apply(this, arguments) + '\n');
@@ -50,6 +76,8 @@ console.dir = function(object) {
   process.stderr.write(util.inspect(object) + '\n');
 };
 ```
+
+Or you can do both at once with `log.init()`.
 
 # Usage
 

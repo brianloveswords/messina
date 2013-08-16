@@ -7,11 +7,18 @@
     "messina": "./bin/messina"
   },
   "dependencies": {
-    "gelf-stream": "~0.2.2"
+    "gelf-stream": "~0.2.2",
+    "bunyan": "~0.21.4",
+    "underscore": "~1.5.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tap": "~0.4.4",
+    "sinon": "~1.7.3",
+    "express": "~3.3.5",
+    "request": "~2.26.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/tap test/*.test.js"
   },
   "repository": {
     "type": "git",
