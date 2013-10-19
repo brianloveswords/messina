@@ -1,6 +1,6 @@
 {
   "name": "messina",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Utility for getting logs into Graylog2",
   "main": "index.js",
   "bin": {
