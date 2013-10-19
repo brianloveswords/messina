@@ -105,6 +105,10 @@ function processStdin() {
       leftover = '';
     }
   });
+
+  stdin.on('close', function () {
+    process.exit(0);
+  });
 }
 
 print(util.format('Piping log events to %s:%s', GRAYLOG_HOST, GRAYLOG_PORT));
