@@ -8,11 +8,12 @@ test('middleware', function (t) {
   const log = messina('Apples');
 
   const app = express();
-  app.use(log.middleware());
-
-  sinon.spy(process.stdout, 'write');
+  var opts = { combinedOutput: false };
+  app.use(log.middleware(opts));
 
   t.test('logs requests and responses', function (t) {
+    sinon.spy(process.stdout, 'write');
+
     app.listen(0, function() {
       var server = this;
       request('http://localhost:' + server.address().port, function(err, res) {
@@ -25,9 +26,32 @@ test('middleware', function (t) {
         t.ok(resLog.res, 'has res');
 
         server.close(function(){
-          t.end();    
+          process.stdout.write.restore();
+          t.end();
         });
       });
     });
-  })
+  });
+
+  t.test('logs requests and responses with a single output', function (t) {
+    sinon.spy(process.stdout, 'write');
+    opts.combinedOutput = true;
+
+    app.listen(0, function() {
+      var server = this;
+      request('http://localhost:' + server.address().port, function(err, res) {
+        t.ok(process.stdout.write.calledOnce, "one log statement written");
+
+        var combinedLog = JSON.parse(process.stdout.write.getCall(0).args[0]);
+        t.ok(combinedLog.req, 'has req');
+        t.ok(combinedLog.res, 'has res');
+        t.ok(combinedLog.responseTime !== undefined, 'has responseTime');
+
+        server.close(function(){
+          process.stdout.write.restore();
+          t.end();
+        });
+      });
+    });
+  });
 });
