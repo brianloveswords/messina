@@ -90,6 +90,15 @@ var log = messina('myapp');
 app.use(log.middleware());
 ```
 
+If you'd like to combine a single request/response cycle into a single log message, simply set `combinedOutput: true`:
+
+```js
+var messina = require('messina');
+var log = messina('myapp');
+
+app.use(log.middleware({ combinedOutput: true }));
+```
+
 # Usage
 
 ```bash

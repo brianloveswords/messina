@@ -15,7 +15,7 @@ module.exports = function(opts) {
     req: bunyan.stdSerializers.req,
     res: bunyan.stdSerializers.res
   });
-    
+
   return new Messina(opts);
 };
 
@@ -46,14 +46,19 @@ function Messina(opts) {
     self.catchFatal();
   }
 
-  self.middleware = function() {
+  self.middleware = function(options) {
+    options = options || {}
+
     return function (req, res, next) {
       const startTime = new Date();
-      self.info({
-        req: req
-      }, util.format(
-        'Incoming Request: %s %s',
-        req.method, req.url));
+
+      if (!options.combinedOutput) {
+        self.info({
+          req: req
+        }, util.format(
+          'Incoming Request: %s %s',
+          req.method, req.url));
+      }
 
       // this method of hijacking res.end is inspired by connect.logger()
       // see connect/lib/middleware/logger.js for details
@@ -62,6 +67,18 @@ function Messina(opts) {
         const responseTime = new Date() - startTime;
         res.end = end;
         res.end(chunk, encoding);
+
+        if (options.combinedOutput) {
+          self.info({
+            req: req,
+            res: res,
+            responseTime: responseTime,
+          }, util.format(
+            'HTTP %s %s %s %s',
+            req.method, req.url, res.statusCode, responseTime));
+          return;
+        }
+
         self.info({
           url: req.url,
           responseTime: responseTime,
